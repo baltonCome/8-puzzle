@@ -73,7 +73,7 @@ public class ManualEntry extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        boolean repetido = false;
+        boolean repeated = false;
 
         if (txtValue.getText().length() != 9) {
             JOptionPane.showMessageDialog(null, "Formato incorreto. Insira uma série de 9 caracteres.");
@@ -89,13 +89,13 @@ public class ManualEntry extends javax.swing.JFrame {
                 for (int i = 0; i < txtValue.getText().length(); i++) {
                     for (int j = i + 1; j < txtValue.getText().length(); j++) {
                         if (txtValue.getText().charAt(i) == txtValue.getText().charAt(j)) {
-                            repetido = true;
+                            repeated = true;
                         }
                     }
                 }
 
-                if (repetido) {
-                    JOptionPane.showMessageDialog(null, "Não insira numeros repetidos.");
+                if (repeated) {
+                    JOptionPane.showMessageDialog(null, "Não insira numeros repeateds.");
                 } else {
                     viewLocal.setManualValue(txtValue.getText());
                     viewLocal.fillManually();

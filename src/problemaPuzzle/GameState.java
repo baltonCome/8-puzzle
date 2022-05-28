@@ -213,7 +213,7 @@ public class GameState implements Comparable<GameState> {
     // Verifica se o estado final é um estado final
     @SuppressWarnings("SimplifyStreamApiCallChains")
     public boolean isFinalState() {
-        final List<Integer> finalState = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 0, 8);
+        final List<Integer> finalState = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
 
         List<Integer> game =  Stream.of(this.game)
                 .flatMap(Stream::of)
