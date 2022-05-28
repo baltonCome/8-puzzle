@@ -2,48 +2,43 @@ package problemaPuzzle;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
  * @author
  *Insercao manual do array
  */
-public class InsercaoManual extends javax.swing.JFrame {
+public class ManualEntry extends javax.swing.JFrame {
 
-    private ViewPrincipal viewLocal = new ViewPrincipal();
+    private MainView viewLocal = new MainView();
 
-    public InsercaoManual(ViewPrincipal view) {
+    public ManualEntry(MainView view) {
         initComponents();
         viewLocal = view;
         setLocationRelativeTo(null);
     }
 
-    public InsercaoManual() {
+    public ManualEntry() {
         initComponents();
         setLocationRelativeTo(null);
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnInserir = new javax.swing.JButton();
+        btnInsert = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        txtValor = new javax.swing.JTextField();
+        txtValue = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnInserir.setText("Inserir");
-        btnInserir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInserirActionPerformed(evt);
-            }
-        });
+        btnInsert.setText("Inserir");
+        btnInsert.addActionListener(this::btnInsertActionPerformed);
 
         jLabel1.setText("Digite os números do quebra-cabeça:");
 
-        txtValor.setText("012345678");
+        txtValue.setText("012345678");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,10 +50,10 @@ public class InsercaoManual extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(122, 122, 122)
-                        .addComponent(btnInserir)))
+                        .addComponent(btnInsert)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -67,53 +62,53 @@ public class InsercaoManual extends javax.swing.JFrame {
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnInserir)
+                .addComponent(btnInsert)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+    private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
         boolean repetido = false;
 
-        if (txtValor.getText().length() != 9) {
+        if (txtValue.getText().length() != 9) {
             JOptionPane.showMessageDialog(null, "Formato incorreto. Insira uma série de 9 caracteres.");
         } else {
             Pattern p = Pattern.compile("[^0-9 ]", Pattern.CASE_INSENSITIVE);
-            Matcher m = p.matcher(txtValor.getText());
+            Matcher m = p.matcher(txtValue.getText());
             boolean b = m.find();
 
             if (b) {
                 JOptionPane.showMessageDialog(null, "Insira apenas caracteres númericos.");
             } else {
 
-                for (int i = 0; i < txtValor.getText().length(); i++) {
-                    for (int j = i + 1; j < txtValor.getText().length(); j++) {
-                        if (txtValor.getText().charAt(i) == txtValor.getText().charAt(j)) {
+                for (int i = 0; i < txtValue.getText().length(); i++) {
+                    for (int j = i + 1; j < txtValue.getText().length(); j++) {
+                        if (txtValue.getText().charAt(i) == txtValue.getText().charAt(j)) {
                             repetido = true;
                         }
                     }
                 }
 
-                if (repetido == true) {
+                if (repetido) {
                     JOptionPane.showMessageDialog(null, "Não insira numeros repetidos.");
                 } else {
-                    viewLocal.setValorManual(txtValor.getText());
-                    viewLocal.preencheDadosManual();
+                    viewLocal.setManualValue(txtValue.getText());
+                    viewLocal.fillManually();
                     this.dispose();
                 }
             }
         }
-    }//GEN-LAST:event_btnInserirActionPerformed
+    }//GEN-LAST:event_btnInsertActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -126,14 +121,8 @@ public class InsercaoManual extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InsercaoManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InsercaoManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InsercaoManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InsercaoManual.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(ManualEntry.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -141,16 +130,12 @@ public class InsercaoManual extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new InsercaoManual().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new ManualEntry().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnInserir;
+    private javax.swing.JButton btnInsert;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JTextField txtValor;
+    private javax.swing.JTextField txtValue;
     // End of variables declaration//GEN-END:variables
 }

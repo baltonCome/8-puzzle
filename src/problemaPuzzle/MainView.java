@@ -7,24 +7,21 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author
- *Tela principal do jogo
+ *Tela principal do game
  */
-public class ViewPrincipal extends javax.swing.JFrame {
+public class MainView extends javax.swing.JFrame {
 
-    private String jogo;
-    private Integer[][] jogoManual;
-    private EstadoJogo jogoAtual;
-    private int tipoBusca;
-    private ArrayList<EstadoJogo> caminho;
-    private String valorManual;
+    private String game;
+    private GameState currentGame;
+    private int searchType;
+    private String manualValue;
 
-    public ViewPrincipal() {
+    public MainView() {
         initComponents();
         setLocationRelativeTo(null);
         jBtnGo.setEnabled(false);
     }
 
-    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -40,24 +37,23 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jBtn22 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jBtnRdn = new javax.swing.JButton();
         jBtnMan = new javax.swing.JButton();
         jBtnGo = new javax.swing.JButton();
         jBtnExit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jBtn00.setText("0");
+        jBtn00.setText("1");
 
-        jBtn01.setText("1");
+        jBtn01.setText("2");
 
-        jBtn02.setText("2");
+        jBtn02.setText("3");
 
-        jBtn12.setText("5");
+        jBtn12.setText("4");
 
-        jBtn11.setText("4");
+        jBtn11.setText("0");
 
-        jBtn10.setText("3");
+        jBtn10.setText("5");
 
         jBtn20.setText("6");
 
@@ -71,33 +67,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Estado Inicial:");
 
-        jBtnRdn.setText("Gerar Aleatório");
-        jBtnRdn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnRndActionPerformed(evt);
-            }
-        });
-
-        jBtnMan.setText("Entrar Manual");
-        jBtnMan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnManActionPerformed(evt);
-            }
-        });
+        jBtnMan.setText("Inserir estado inicial");
+        jBtnMan.addActionListener(this::jBtnManActionPerformed);
 
         jBtnGo.setText("Iniciar");
-        jBtnGo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnGoActionPerformed(evt);
-            }
-        });
+        jBtnGo.addActionListener(this::jBtnGoActionPerformed);
 
         jBtnExit.setText("Sair");
-        jBtnExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jBtnExitActionPerformed(evt);
-            }
-        });
+        jBtnExit.addActionListener(this::jBtnExitActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -119,7 +96,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
                         .addComponent(jBtn02)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jBtnRdn, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
                     .addComponent(jBtnMan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jBtnGo, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,8 +127,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtn00)
                     .addComponent(jBtn01)
-                    .addComponent(jBtn02)
-                    .addComponent(jBtnRdn))
+                    .addComponent(jBtn02))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtn10)
@@ -191,54 +166,34 @@ public class ViewPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jBtnRndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnRndActionPerformed
-        EstadoJogo estado = new EstadoJogo();  // Gera um jogo aleatório com verificação se tem solução
-        estado.gerarEstadoInicial();
-        jogo = new String();
-        jogo = estado.jogoEmString();
-
-        jBtn00.setText(jogo.substring(0, 1));
-        jBtn01.setText(jogo.substring(1, 2));
-        jBtn02.setText(jogo.substring(2, 3));
-        jBtn10.setText(jogo.substring(3, 4));
-        jBtn11.setText(jogo.substring(4, 5));
-        jBtn12.setText(jogo.substring(5, 6));
-        jBtn20.setText(jogo.substring(6, 7));
-        jBtn21.setText(jogo.substring(7, 8));
-        jBtn22.setText(jogo.substring(8, 9));
-
-        this.jogoAtual = estado;
-        jBtnGo.setEnabled(true);
-    }//GEN-LAST:event_jBtnRndActionPerformed
 
     private void jBtnManActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnManActionPerformed
-        InsercaoManual insercao = new InsercaoManual(this); // Gera um jogo a partir  de uma entrada manual de dados
-        insercao.setVisible(true);
+        ManualEntry entry = new ManualEntry(this); // Gera um game a partir  de uma entrada manual de dados
+        entry.setVisible(true);
     }//GEN-LAST:event_jBtnManActionPerformed
 
-    public void preencheDadosManual() {
+    public void fillManually() {
         int k = 0;
-        jogoManual = new Integer[3][3];
+        Integer[][] manualGame = new Integer[3][3];
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                jogoManual[i][j] = Integer.parseInt(valorManual.substring(k, k + 1));
+                manualGame[i][j] = Integer.parseInt(manualValue.substring(k, k + 1));
                 k++;
             }
         }
 
-        jBtn00.setText(jogoManual[0][0].toString());
-        jBtn01.setText(jogoManual[0][1].toString());
-        jBtn02.setText(jogoManual[0][2].toString());
-        jBtn10.setText(jogoManual[1][0].toString());
-        jBtn11.setText(jogoManual[1][1].toString());
-        jBtn12.setText(jogoManual[1][2].toString());
-        jBtn20.setText(jogoManual[2][0].toString());
-        jBtn21.setText(jogoManual[2][1].toString());
-        jBtn22.setText(jogoManual[2][2].toString());
+        jBtn00.setText(manualGame[0][0].toString());
+        jBtn01.setText(manualGame[0][1].toString());
+        jBtn02.setText(manualGame[0][2].toString());
+        jBtn10.setText(manualGame[1][0].toString());
+        jBtn11.setText(manualGame[1][1].toString());
+        jBtn12.setText(manualGame[1][2].toString());
+        jBtn20.setText(manualGame[2][0].toString());
+        jBtn21.setText(manualGame[2][1].toString());
+        jBtn22.setText(manualGame[2][2].toString());
 
-        EstadoJogo estado = new EstadoJogo(jogoManual);
-        this.jogoAtual = estado;
+        this.currentGame = new GameState(manualGame);
         jBtnGo.setEnabled(true);
 
     }
@@ -248,11 +203,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnExitActionPerformed
 
     private void jBtnGoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGoActionPerformed
-        if (jogoAtual.temSolucao(jogoAtual.getJogo())) {
-            Busca busca = new Busca();
-            caminho = busca.buscar(jogoAtual);
-            jogoAtual.resetarEstadosJaGerados();
-            new JogoView(jogoAtual, true, caminho);
+        if (currentGame.hasSolution(currentGame.getGame())) {
+            Search search = new Search();
+            ArrayList<GameState> path = search.search(currentGame);
+            currentGame.resetGeneratedStates();
+            new GameView(currentGame, true, path);
 
         } else {
             JOptionPane.showMessageDialog(null, "Não existe solução para este estado. Insira outro estado.");
@@ -261,7 +216,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jBtnGoActionPerformed
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -274,24 +229,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ViewPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ViewPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ViewPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ViewPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            java.util.logging.Logger.getLogger(MainView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ViewPrincipal().setVisible(true);
-            }
-        });
+        java.awt.EventQueue.invokeLater(() -> new MainView().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -307,16 +252,15 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jBtnExit;
     private javax.swing.JButton jBtnGo;
     private javax.swing.JButton jBtnMan;
-    private javax.swing.JButton jBtnRdn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 
     /**
-     * @param valorManual the valorManual to set
+     * @param manualValue the manualValue to set
      */
-    public void setValorManual(String valorManual) {
-        this.valorManual = valorManual;
+    public void setManualValue(String manualValue) {
+        this.manualValue = manualValue;
     }
 }
