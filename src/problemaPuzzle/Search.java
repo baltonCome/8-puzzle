@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.Stack;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,14 +38,20 @@ public class Search {
         }
 
         if (currentState == null) {
+            JOptionPane.showMessageDialog(null, "Impossível encontrar uma solução.");
             System.out.println("Impossível encontrar uma solução.");
             return null;
 
         } else {
-            System.out.println("Solução encontrada: " + currentState.gameInString());
-            System.out.println("Quantidade de jogadas necessárias da raiz até a solução -> " + currentState.getLevel());
+            JOptionPane.showMessageDialog(null, "Solução encontrada: " + currentState.gameInString()
+                + "\nQuantidade de jogadas necessárias da raiz até a solução -> " + currentState.getLevel()
+                + "\nQuantidade de nós visitados -> "+ qtdVisitedStates 
+                + "\nCusto total da solução -> " + currentState.getTotalValue()
+            );
+            System.out.println("\n"+"Quantidade de jogadas necessárias da raiz até a solução -> " + currentState.getLevel());
             System.out.println("Quantidade de nós visitados -> " + qtdVisitedStates);
             System.out.println("Custo total da solução -> " + currentState.getTotalValue());
+            System.out.println("Solução encontrada: " + currentState.gameInString());
             System.out.println();
 
             return getPath(currentState);

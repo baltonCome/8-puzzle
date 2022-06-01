@@ -19,11 +19,11 @@ import javax.swing.JOptionPane;
 public class GameView extends JFrame {
 
     // Cores sobre os botões que representam as puzzle do tabuleiro.
-    private static final Color BACKGROUND_BTN_COLOR = new Color(66, 134, 244);
-    private static final Color BACKGROUND_BTN_COLOR_PRESSED = Color.LIGHT_GRAY;
+    private static final Color BACKGROUND_BTN_COLOR = new Color(100, 150, 44);
+    private static final Color BACKGROUND_BTN_COLOR_PRESSED = Color.BLUE;
     private static final Color FOREROUND_BTN_COLOR = /*Color.WHITE*/ Color.BLACK;
-    private static final Font BTN_FONT = new Font("Tahoma", Font.PLAIN, 60);
-    private static final Font BTN_FONT_TWO = new Font("Tahoma", Font.PLAIN, 35);
+    private static final Font BTN_FONT = new Font("Consolas", Font.PLAIN, 60);
+    private static final Font BTN_FONT_TWO = new Font("Consolas", Font.PLAIN, 35);
     private GameState currentState;
     private final GameState initialState;
     private JButton[][] puzzle; // Representa as puzzle no tabuleiro.
